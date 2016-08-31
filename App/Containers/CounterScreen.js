@@ -17,7 +17,7 @@ class Counter extends React.Component {
     let counterO = this.props.store.counter
     let board = this.props.store.board
     let rowView = board.cells.map((cell) => {
-      return <Button onPress={cell.bump}>{cell.status}</Button>
+      return <Button key={cell.id} onPress={cell.bump}>{cell.status}</Button>
     })
     let boardView = _.chunk(rowView, 9).map((row, i) => {
         return <View key={i} style={styles.row}>{row}</View>

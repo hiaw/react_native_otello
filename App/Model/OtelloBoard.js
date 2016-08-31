@@ -3,13 +3,15 @@ import autobind from 'autobind-decorator'
 
 import Cell from './Cell.js'
 
+const SIZE = 9
+
 @autobind
 class OtelloBoard {
   @observable cells = [];
   id = Math.random()
 
   constructor() {
-    for (i = 0; i< 9*9; i++) {
+    for (i = 0; i< SIZE*SIZE; i++) {
       this.cells.push(new Cell())
     }
   }
