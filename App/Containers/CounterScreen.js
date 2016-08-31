@@ -26,27 +26,9 @@ class Counter extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Cell
+          Otello
         </Text>
         {boardView}
-
-        <Text style={styles.welcome}>
-          Single object example
-        </Text>
-        <CounterRow key={counterO.id} counter={counterO} />
-
-        <Text style={styles.welcome}>
-          Array example
-        </Text>
-        {counterArray.counterArray.map((counter, i) => {
-          return (
-            <View key={counter.id} style={styles.row}>
-              <CounterRow key={counter.id} counter={counter} />
-              <Button onPress={() => counterArray.deleteCounter(i)}>    Delete Row</Button>
-            </View>
-           )
-        }) }
-        <Button onPress={counterArray.addCounter}>Add Row</Button>
       </View>
     )
   }
