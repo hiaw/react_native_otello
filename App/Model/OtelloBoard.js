@@ -17,4 +17,4 @@ class OtelloBoard {
   }
 }
 
-export default OtelloBoard;
+module.exports = {OtelloBoard, SIZE};

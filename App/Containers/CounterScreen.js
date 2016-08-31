@@ -13,13 +13,12 @@ import styles from './Styles/CounterScreen.Style.js'
 @observer
 class Counter extends React.Component {
   render () {
-    let counterArray = this.props.store.counterArray
-    let counterO = this.props.store.counter
     let board = this.props.store.board
+    let size = this.props.store.size
     let rowView = board.cells.map((cell) => {
       return <Button key={cell.id} onPress={cell.bump}>{cell.status}</Button>
     })
-    let boardView = _.chunk(rowView, 9).map((row, i) => {
+    let boardView = _.chunk(rowView, size).map((row, i) => {
         return <View key={i} style={styles.row}>{row}</View>
     })
 
