@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "rn_mobx_template";
+        return "Otello";
     }
 }
