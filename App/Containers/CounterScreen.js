@@ -14,14 +14,18 @@ class Counter extends React.Component {
   render () {
     let counterArray = this.props.store.counterArray
     let counterO = this.props.store.counter
-    let cell = this.props.store.cell
+    let board = this.props.store.board
+    let boardView = board.cells.map((cell) => {
+      return <Button onPress={cell.bump}>{cell.status}</Button>
+    })
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
           Cell
         </Text>
-        <Text>Cell: {cell.status}</Text>
-        <Button onPress={cell.bump}>Bump</Button>
+        <View style={styles.row}>
+          {boardView}
+        </View>
 
         <Text style={styles.welcome}>
           Single object example

@@ -1,9 +1,9 @@
-import Cell from './Cell.js'
 import Counter from './Counter.js'
 import CounterArray from './CounterArray.js'
+import OtelloBoard from './OtelloBoard.js'
 
 let store = {
-  cell: new Cell(),
+  board: new OtelloBoard(),
   counter: new Counter(),
   counterArray: new CounterArray()
 }
