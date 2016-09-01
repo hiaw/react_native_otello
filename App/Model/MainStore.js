@@ -1,10 +1,8 @@
-import Counter from './Counter.js'
-import CounterArray from './CounterArray.js'
+import {OtelloBoard, SIZE} from './OtelloBoard.js'
 
 let store = {
-  counter: new Counter(),
-  counterArray: new CounterArray()
+  board: new OtelloBoard(),
+  size: SIZE
 }
-store.counterArray.addCounter()
 
 export default store
