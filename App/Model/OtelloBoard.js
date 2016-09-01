@@ -15,12 +15,6 @@ class OtelloBoard {
       this.cells.push(new Cell())
     }
 
-    reaction(
-      () => this.cells.map( cell => cell.status ),
-      status => {
-        console.log('Status has changed' + status)
-      }
-    )
   }
 
   @action updateBoard(i) {
