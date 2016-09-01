@@ -22,6 +22,11 @@ class OtelloBoard {
       }
     )
   }
+
+  @action updateBoard(i) {
+    this.cells[i].bump();
+    this.cells[i+1].bump();
+  }
 }
 
 module.exports = {OtelloBoard, SIZE};
