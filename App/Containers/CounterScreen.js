@@ -39,6 +39,9 @@ class Counter extends React.Component {
         return <View key={i} style={styles.row}>{row}</View>
     })
 
+    let turnView = <View style={[cellStyles.black, cellStyles.piece]} />
+          if (board.turn == 1) turnView = <View style={[cellStyles.white, cellStyles.piece]} />
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -50,7 +53,7 @@ class Counter extends React.Component {
         <Text>White count { board.whiteCount }</Text>
         <Text>Black count { board.blackCount }</Text>
         <Text>Empty { board.emptyCount }</Text>
-        <Text>Turn { board.turnColor}</Text>
+        {turnView}
       </View>
     )
   }
