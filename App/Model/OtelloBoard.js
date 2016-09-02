@@ -1,9 +1,9 @@
 import {reaction, computed, action, observable, untracked, autorun} from 'mobx';
 import autobind from 'autobind-decorator'
 
-import Cell from './Cell.js'
+import Cell, {CELL_STATUS} from './Cell.js'
 
-const SIZE =15
+const SIZE = 8
 
 @autobind
 class OtelloBoard {
@@ -14,7 +14,15 @@ class OtelloBoard {
     for (i = 0; i< SIZE*SIZE; i++) {
       this.cells.push(new Cell())
     }
+    this.initialValues()
+  }
 
+  initialValues() {
+    let middle = SIZE / 2 - 1;
+    this.cells[ SIZE * middle + middle].status = CELL_STATUS.BLACK
+    this.cells[ SIZE * middle + middle + 1].status = CELL_STATUS.WHITE
+    this.cells[ SIZE * (middle + 1)+ middle].status = CELL_STATUS.WHITE
+    this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
   }
 
   @action updateBoard(i) {
