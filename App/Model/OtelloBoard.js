@@ -18,8 +18,11 @@ class OtelloBoard {
   }
 
   @action updateBoard(i) {
-    this.checkHorizontal(i)
-    /* this.checkVertical(i)*/
+    this.cells[i].bump()
+    let status = this.cells[i].status
+    this.checkDiagonalTopLeft(i, status)
+    /* this.checkHorizontal(i, status)*/
+    /* this.checkVertical(i, status)*/
   }
 
   initialValues() {
@@ -30,19 +33,42 @@ class OtelloBoard {
     this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
   }
 
-  checkVertical(i) {
-    this.cells[i].bump()
-    let status = this.cells[i].status
+  checkVertical(i, status) {
     let col = i % SIZE
     for (i = 0; i < SIZE; i++){
       this.cells[ i * SIZE + col].status = status
     }
   }
 
-  checkHorizontal(i) {
-    this.cells[i].bump()
-    let status = this.cells[i].status
+  checkHorizontal(i, status) {
     let row = parseInt(i/SIZE)
+    for (i = 0; i < SIZE; i++){
+      this.cells[ row * SIZE + i].status = status
+    }
+  }
+
+  checkDiagonal(i, status) {
+    this.checkDiagonalTopLeft(i)
+    this.checkDiagonal_right(i)
+  }
+
+  checkDiagonalTopLeft(i, status) {
+    let row = parseInt(i/SIZE)
+    let col = i % SIZE
+    let pos
+    for (i = 0; i < SIZE; i++){
+      if ( row-i >= 0 && col-i >= 0) {
+        pos = (row-i) * SIZE + (col-i)
+        if (pos > 0 && pos < SIZE*SIZE) {
+          this.cells[ (row-i) * SIZE + (col-i)].status = status
+        }
+      }
+    }
+  }
+
+  checkDiagonal_right(i, status) {
+    let row = parseInt(i/SIZE)
+    let col = i % SIZE
     for (i = 0; i < SIZE; i++){
       this.cells[ row * SIZE + i].status = status
     }
