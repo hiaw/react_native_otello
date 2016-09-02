@@ -69,16 +69,16 @@ export default class OtelloBoard {
   }
   // Game logic
   @action updateBoard(i) {
-    let status = this.turn
     let {row, col} = this.getCellPosition(i)
-    this.checkAll(row, col, status)
+    let moves = this.checkAll(row, col, this.turn)
     // Do the change
-    if ([1].length > 0) {
+    if (moves.length > 0) {
+      console.log(JSON.stringify(moves))
       this.cells[i].status = this.turn
+      this.turnMoveTiles(moves, this.turn)
       this.changeTurn()
     }
   }
-
 
   getCellPosition(i) {
     let row = parseInt(i/SIZE)
@@ -86,18 +86,23 @@ export default class OtelloBoard {
     return {row, col}
   }
 
+ turnMoveTiles(moves, status) {
+    for(var i = 0; i < moves.length; i++) {
+      this.cells[moves[i]].status = status
+    }
+  }
+
   checkAll(row, col, status) {
-    this.checkHorizontal(row, col, status)
-    this.checkVertical(row, col, status)
-    this.checkDiagonal(row, col, status)
+    let moves = []
+    moves = moves.concat(this.checkVerticalTop(row, col, status))
+    moves = moves.concat(this.checkVerticalBottom(row, col, status))
+    /* this.checkHorizontal(row, col, status)*/
+    /* this.checkDiagonal(row, col, status)*/
+    console.log(JSON.stringify(moves))
+    return moves
   }
 
   // Vertical
-  checkVertical(row, col, status) {
-    this.checkVerticalTop(row, col, status)
-    this.checkVerticalBottom(row, col, status)
-  }
-
   checkVerticalTop(row, col, status) {
     let max = -1
     let min = row
@@ -108,7 +113,7 @@ export default class OtelloBoard {
         break
       }
     }
-    this.updateCol(min, max, col, status)
+    return this.updateCol(min, max, col, status)
   }
 
   checkVerticalBottom(row, col, status) {
@@ -121,15 +126,19 @@ export default class OtelloBoard {
         break
       }
     }
-    this.updateCol(min, max, col, status)
+    return this.updateCol(min, max, col, status)
   }
 
   updateCol( min, max, col, status) {
+    let moves = []
     if (min > -1 && max > -1) {
       for (i = min; i < max; i++){
-        this.cells[ i * SIZE + col].status = status
+        console.log("Pushing " +  (i * SIZE + col))
+        moves.push( i * SIZE + col)
       }
     }
+      console.log(JSON.stringify(moves))
+    return moves
   }
 
   // Horizontal
