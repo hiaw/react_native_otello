@@ -17,7 +17,8 @@ export default {
     backgroundColor: 'green',
     width: CellSize,
     height: CellSize,
-    borderWidth: 1
+    zIndex: 0,
+    borderWidth: StyleSheet.hairlineWidth
   },
   white: {
     backgroundColor: 'white'
@@ -34,6 +35,7 @@ export default {
     height: PieceSize,
     margin: PieceMargin,
     borderWidth: 2,
+    zIndex: 1,
     borderRadius: PieceRadius
   }
 }

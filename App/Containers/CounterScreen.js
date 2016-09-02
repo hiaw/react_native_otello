@@ -19,19 +19,20 @@ class Counter extends React.Component {
     let size = this.props.store.size
 
     let rowView = board.cells.map((cell, i) => {
-      let piece = <View style={[cellStyles.transparent, cellStyles.piece]} />
+      let color = cellStyles.transparent
       switch (cell.status) {
         case 1:
-          piece = <View style={[cellStyles.white, cellStyles.piece]} />
+          color= cellStyles.white
           break
         case 2:
-          piece = <View style={[cellStyles.black, cellStyles.piece]} />
+          color = cellStyles.black
           break
       }
       return (
         <Button key={cell.id} onPress={() => board.updateBoard(i)}>
-        {piece}
-          </Button>
+          <View style={[color, cellStyles.piece]} >
+          </View>
+        </Button>
       )
     })
 
@@ -39,9 +40,9 @@ class Counter extends React.Component {
         return <View key={i} style={styles.row}>{row}</View>
     })
 
-    let turnView = <View style={[cellStyles.black, cellStyles.piece]} />
-          if (board.turn == 1) turnView = <View style={[cellStyles.white, cellStyles.piece]} />
-
+    let turnColor = cellStyles.black
+    if (board.turn == 1) turnColor = cellStyles.white
+    let nStyle = {zIndex: 2}
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
@@ -53,7 +54,8 @@ class Counter extends React.Component {
         <Text>White count { board.whiteCount }</Text>
         <Text>Black count { board.blackCount }</Text>
         <Text>Empty { board.emptyCount }</Text>
-        {turnView}
+        <View style={[turnColor, cellStyles.piece, nStyle]} />
+        <BoardCellView />
       </View>
     )
   }
