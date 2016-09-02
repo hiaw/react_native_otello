@@ -33,10 +33,12 @@ class OtelloBoard {
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
+    /* this.checkHorizontalLeft(i, status)*/
     /* this.checkHorizontal(i, status)*/
     /* this.checkHorizontalRight(i, status)*/
-    this.checkHorizontalLeft(i, status)
     /* this.checkVertical(i, status)*/
+    this.checkVerticalTop(i, status)
+    /* this.checkVerticalBottom(i, status)*/
     /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
     /* this.checkDiagonalBottomLeft(i, status)*/
@@ -52,8 +54,23 @@ class OtelloBoard {
 
   // Vertical
   checkVertical(i, status) {
+    this.checkVerticalTop(i, status)
+    this.checkVerticalBottom(i, status)
+  }
+
+  checkVerticalTop(i, status) {
+    this.verticalForLoop(i, OP.MINUS, status)
+  }
+
+  checkVerticalBottom(i, status) {
+    this.verticalForLoop(i, OP.PLUS, status)
+  }
+
+  verticalForLoop(i, op, status) {
     let {row, col} = this.getCellPosition(i)
-    for (i = 0; i < SIZE; i++){
+    let min = op === OP.PLUS ? row : 0
+    let max = op === OP.PLUS ? SIZE : row
+    for (i = min; i < max; i++){
       this.cells[ i * SIZE + col].status = status
     }
   }
