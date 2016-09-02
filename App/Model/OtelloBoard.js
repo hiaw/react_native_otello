@@ -59,8 +59,9 @@ class OtelloBoard {
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
-    this.checkHorizontal(i, status)
-    this.checkVertical(i, status)
+    let {row, col} = this.getCellPosition(i)
+    this.checkHorizontal(row, col, i, status)
+    this.checkVertical(row, col, i, status)
     /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
     /* this.checkDiagonalBottomLeft(i, status)*/
@@ -75,13 +76,12 @@ class OtelloBoard {
   }
 
   // Vertical
-  checkVertical(i, status) {
-    this.checkVerticalTop(i, status)
-    this.checkVerticalBottom(i, status)
+  checkVertical(row, col, i, status) {
+    this.checkVerticalTop(row, col, i, status)
+    this.checkVerticalBottom(row, col, i, status)
   }
 
-  checkVerticalTop(pos, status) {
-    let {row, col} = this.getCellPosition(pos)
+  checkVerticalTop(row, col, pos, status) {
     let max = -1
     let min = row
     for (i = min + 1; i < SIZE; i++){
@@ -94,8 +94,7 @@ class OtelloBoard {
     this.updateCol(min, max, col, status)
   }
 
-  checkVerticalBottom(pos, status) {
-    let {row, col} = this.getCellPosition(pos)
+  checkVerticalBottom(row, col, pos, status) {
     let max = row
     let min = -1
     for (i = max - 1; i >= 0; i--){
@@ -117,13 +116,12 @@ class OtelloBoard {
   }
 
   // Horizontal
-  checkHorizontal(i, status) {
-    this.checkHorizontalRight(i, status)
-    this.checkHorizontalLeft(i, status)
+  checkHorizontal(row, col, i, status) {
+    this.checkHorizontalRight(row, col, i, status)
+    this.checkHorizontalLeft(row, col, i, status)
   }
 
-  checkHorizontalRight(pos, status) {
-    let {row, col} = this.getCellPosition(pos)
+  checkHorizontalRight(row, col, pos, status) {
     let max = -1
     let min = col
     for (i = min + 1; i < SIZE; i++){
@@ -136,8 +134,7 @@ class OtelloBoard {
     this.updateRow(min, max, row, status)
   }
 
-  checkHorizontalLeft(pos, status) {
-    let {row, col} = this.getCellPosition(pos)
+  checkHorizontalLeft(row, col, pos, status) {
     let max = col
     let min = -1
     for (i = max - 1; i >= 0; i--){
