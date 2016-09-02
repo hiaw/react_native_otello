@@ -34,14 +34,23 @@ class OtelloBoard {
     this.cells[i].bump()
     let status = this.cells[i].status
     /* this.checkHorizontal(i, status)*/
+    /* this.checkHorizontalRight(i, status)*/
+    this.checkHorizontalLeft(i, status)
     /* this.checkVertical(i, status)*/
     /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
     /* this.checkDiagonalBottomLeft(i, status)*/
     /* this.checkDiagonalBottomRight(i, status)*/
-    this.checkDiagonal(i, status)
+    /* this.checkDiagonal(i, status)*/
   }
 
+  getCellPosition(i) {
+    let row = parseInt(i/SIZE)
+    let col = i % SIZE
+    return {row, col}
+  }
+
+  // Vertical
   checkVertical(i, status) {
     let {row, col} = this.getCellPosition(i)
     for (i = 0; i < SIZE; i++){
@@ -49,13 +58,30 @@ class OtelloBoard {
     }
   }
 
+  // Horizontal
   checkHorizontal(i, status) {
+    this.checkHorizontalRight(i, status)
+    this.checkHorizontalLeft(i, status)
+  }
+
+  checkHorizontalRight(i, status) {
+    this.horizontalForLoop(i, OP.PLUS, status)
+  }
+
+  checkHorizontalLeft(i, status) {
+    this.horizontalForLoop(i, OP.MINUS, status)
+  }
+
+  horizontalForLoop(i, op, status) {
     let {row, col} = this.getCellPosition(i)
-    for (i = 0; i < SIZE; i++){
+    let min = op === OP.PLUS ? col : 0
+    let max = op === OP.PLUS ? SIZE : col
+    for (i = min; i < max; i++){
       this.cells[ row * SIZE + i].status = status
     }
   }
 
+  // Diagonal
   checkDiagonal(i, status) {
     this.checkDiagonalTopLeft(i, status)
     this.checkDiagonalTopRight(i, status)
@@ -79,11 +105,6 @@ class OtelloBoard {
     this.diagonalForLoop(i, OP.PLUS, OP.PLUS, status)
   }
 
-  getCellPosition(i) {
-    let row = parseInt(i/SIZE)
-    let col = i % SIZE
-    return {row, col}
-  }
 
   diagonalForLoop(i, rowOp, colOp, status) {
     let {row, col} = this.getCellPosition(i)
