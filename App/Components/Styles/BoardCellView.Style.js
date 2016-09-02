@@ -22,7 +22,7 @@ export default {
   white: {
     backgroundColor: 'white'
   },
-  tranparent: {
+  transparent: {
     backgroundColor: 'transparent',
     borderColor: 'transparent'
   },
