@@ -10,16 +10,5 @@ export const CELL_STATUS = {
 @autobind
 export default class Cell {
   @observable status = 0
-  @observable turn = CELL_STATUS.BLACK
   id = Math.random()
-
-  bump(){
-    this.status = (this.status+1) % 3;
-  }
-
-  @action changeTurn() {
-    this.turn = this.turn === CELL_STATUS.BLACK?
-                CELL_STATUS.BLACK :
-                CELL_STATUS.WHITE
-  }
 }

@@ -13,6 +13,7 @@ const OP = {
 @autobind
 class OtelloBoard {
   @observable cells = [];
+  @observable turn = CELL_STATUS.BLACK
   id = Math.random()
 
   constructor() {
@@ -55,19 +56,28 @@ class OtelloBoard {
     return SIZE*SIZE - this.whiteCount - this.blackCount
   }
 
+  // Turns
+  @action changeTurn() {
+    this.turn = this.turn === CELL_STATUS.BLACK?
+                CELL_STATUS.WHITE :
+                CELL_STATUS.BLACK
+  }
+
+  @computed get turnColor() {
+    return this.turn === CELL_STATUS.BLACK?
+                'Black' : 'White'
+  }
   // Game logic
   @action updateBoard(i) {
-    this.cells[i].bump()
+    this.cells[i].status = this.turn
+    this.changeTurn()
     let status = this.cells[i].status
     let {row, col} = this.getCellPosition(i)
     this.checkHorizontal(row, col, status)
     this.checkVertical(row, col, status)
-    /* this.checkDiagonalTopLeft(row, col, status)*/
-    /* this.checkDiagonalTopRight(row, col, status)*/
-    /* this.checkDiagonalBottomLeft(row, col, status)*/
-    /* this.checkDiagonalBottomRight(row, col, status)*/
     this.checkDiagonal(row, col, status)
   }
+
 
   getCellPosition(i) {
     let row = parseInt(i/SIZE)
