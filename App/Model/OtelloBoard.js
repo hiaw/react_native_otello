@@ -3,7 +3,7 @@ import autobind from 'autobind-decorator'
 
 import Cell, {CELL_STATUS} from './Cell.js'
 
-const SIZE = 8
+export const SIZE = 8
 
 const OP = {
   MINUS: 0,
@@ -11,7 +11,7 @@ const OP = {
 }
 
 @autobind
-class OtelloBoard {
+export default class OtelloBoard {
   @observable cells = [];
   @observable turn = CELL_STATUS.BLACK
   id = Math.random()
@@ -227,5 +227,3 @@ class OtelloBoard {
   }
 
 }
-
-module.exports = {OtelloBoard, SIZE};

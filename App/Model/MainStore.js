@@ -1,4 +1,4 @@
-import {OtelloBoard, SIZE} from './OtelloBoard.js'
+import OtelloBoard, {SIZE} from './OtelloBoard.js'
 
 let store = {
   board: new OtelloBoard(),
