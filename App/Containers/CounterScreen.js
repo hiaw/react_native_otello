@@ -28,6 +28,10 @@ class Counter extends React.Component {
           Otello
         </Text>
         {boardView}
+
+        <Text>White count { board.whiteCount }</Text>
+        <Text>Black count { board.blackCount }</Text>
+        <Text>Empty { board.emptyCount }</Text>
       </View>
     )
   }

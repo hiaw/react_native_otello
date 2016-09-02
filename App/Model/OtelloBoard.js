@@ -30,6 +30,30 @@ class OtelloBoard {
     this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
   }
 
+  @computed get whiteCount() {
+    let count = 0
+    this.cells.map(cell => {
+      if (cell.status === CELL_STATUS.WHITE) {
+        count++
+      }
+    })
+    return count
+  }
+
+  @computed get blackCount() {
+    let count = 0
+    this.cells.map(cell => {
+      if (cell.status === CELL_STATUS.BLACK) {
+        count++
+      }
+    })
+    return count
+  }
+
+  @computed get emptyCount() {
+    return SIZE*SIZE - this.whiteCount - this.blackCount
+  }
+
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
