@@ -3,7 +3,7 @@ import autobind from 'autobind-decorator'
 
 import Cell, {CELL_STATUS} from './Cell.js'
 
-const SIZE = 8
+const SIZE = 18
 
 const OP = {
   MINUS: 0,
@@ -30,6 +30,7 @@ class OtelloBoard {
     this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
   }
 
+  // count remaining
   @computed get whiteCount() {
     let count = 0
     this.cells.map(cell => {
@@ -54,15 +55,12 @@ class OtelloBoard {
     return SIZE*SIZE - this.whiteCount - this.blackCount
   }
 
+  // Game logic
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
-    this.checkHorizontalLeft(i, status)
-    /* this.checkHorizontal(i, status)*/
-    /* this.checkHorizontalRight(i, status)*/
-    /* this.checkVertical(i, status)*/
-    /* this.checkVerticalTop(i, status)*/
-    /* this.checkVerticalBottom(i, status)*/
+    this.checkHorizontal(i, status)
+    this.checkVertical(i, status)
     /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
     /* this.checkDiagonalBottomLeft(i, status)*/
@@ -82,20 +80,39 @@ class OtelloBoard {
     this.checkVerticalBottom(i, status)
   }
 
-  checkVerticalTop(i, status) {
-    this.verticalForLoop(i, OP.MINUS, status)
+  checkVerticalTop(pos, status) {
+    let {row, col} = this.getCellPosition(pos)
+    let max = -1
+    let min = row
+    for (i = min + 1; i < SIZE; i++){
+      let num = i * SIZE + + col
+      if (this.cells[num].status === status) {
+        max = i
+        break
+      }
+    }
+    this.updateCol(min, max, col, status)
   }
 
-  checkVerticalBottom(i, status) {
-    this.verticalForLoop(i, OP.PLUS, status)
+  checkVerticalBottom(pos, status) {
+    let {row, col} = this.getCellPosition(pos)
+    let max = row
+    let min = -1
+    for (i = max - 1; i >= 0; i--){
+      let num = i * SIZE + + col
+      if (this.cells[num].status === status) {
+        min = i
+        break
+      }
+    }
+    this.updateCol(min, max, col, status)
   }
 
-  verticalForLoop(i, op, status) {
-    let {row, col} = this.getCellPosition(i)
-    let min = op === OP.PLUS ? row : 0
-    let max = op === OP.PLUS ? SIZE : row
-    for (i = min; i < max; i++){
-      this.cells[ i * SIZE + col].status = status
+  updateCol( min, max, col, status) {
+    if (min > -1 && max > -1) {
+      for (i = min; i < max; i++){
+        this.cells[ i * SIZE + col].status = status
+      }
     }
   }
 
@@ -105,28 +122,37 @@ class OtelloBoard {
     this.checkHorizontalLeft(i, status)
   }
 
-  checkHorizontalRight(i, status) {
-    this.horizontalForLoop(i, OP.PLUS, status)
-  }
-
-  checkHorizontalLeft(i, status) {
-    this.horizontalForLoop(i, OP.MINUS, status)
-  }
-
-  horizontalForLoop(i, op, status) {
-    let {row, col} = this.getCellPosition(i)
-    let min = op === OP.PLUS ? col : 0
-    let max = op === OP.PLUS ? SIZE : col
-    let newMin = -1
-    for (i = min; i < max; i++){
+  checkHorizontalRight(pos, status) {
+    let {row, col} = this.getCellPosition(pos)
+    let max = -1
+    let min = col
+    for (i = min + 1; i < SIZE; i++){
       let num = row * SIZE + i
       if (this.cells[num].status === status) {
-        newMin = i
+        max = i
         break
       }
     }
-    if (newMin !== min && newMin > -1) {
-      for (i = newMin; i < max; i++){
+    this.updateRow(min, max, row, status)
+  }
+
+  checkHorizontalLeft(pos, status) {
+    let {row, col} = this.getCellPosition(pos)
+    let max = col
+    let min = -1
+    for (i = max - 1; i >= 0; i--){
+      let num = row * SIZE + i
+      if (this.cells[num].status === status) {
+        min = i
+        break
+      }
+    }
+    this.updateRow(min, max, row, status)
+  }
+
+  updateRow( min, max, row, status) {
+    if (min > -1 && max > -1) {
+      for (i = min; i < max; i++){
         this.cells[ row * SIZE + i].status = status
       }
     }

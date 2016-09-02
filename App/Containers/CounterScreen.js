@@ -29,6 +29,7 @@ class Counter extends React.Component {
         </Text>
         {boardView}
 
+        <Text></Text>
         <Text>White count { board.whiteCount }</Text>
         <Text>Black count { board.blackCount }</Text>
         <Text>Empty { board.emptyCount }</Text>
