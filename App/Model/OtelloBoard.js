@@ -164,35 +164,58 @@ class OtelloBoard {
   }
 
   checkDiagonalTopLeft(row, col, status) {
-    this.diagonalForLoop(row, col, OP.MINUS, OP.MINUS, status)
+    let count = Math.max(row, col)
+    this.diagonalForLoop(row, col, count, OP.MINUS, OP.MINUS, status)
   }
 
   checkDiagonalTopRight(row, col, status) {
-    this.diagonalForLoop(row, col, OP.MINUS, OP.PLUS, status)
+    let count = Math.max(row, SIZE - col)
+    this.diagonalForLoop(row, col, count, OP.MINUS, OP.PLUS, status)
   }
 
   checkDiagonalBottomLeft(row, col, status) {
-    this.diagonalForLoop(row, col, OP.PLUS, OP.MINUS, status)
+    let count = Math.max(SIZE - row, col)
+    this.diagonalForLoop(row, col, count, OP.PLUS, OP.MINUS, status)
   }
 
   checkDiagonalBottomRight(row, col, status) {
-    this.diagonalForLoop(row, col, OP.PLUS, OP.PLUS, status)
+    let count = SIZE - Math.max(row, col)
+    this.diagonalForLoop(row, col, count, OP.PLUS, OP.PLUS, status)
   }
 
-  diagonalForLoop(row, col, rowOp, colOp, status) {
-
+  diagonalForLoop(row, col, count, rowOp, colOp, status) {
+    let num = -1
     let pos, newRow, newCol
-    for (i = 0; i < SIZE; i++){
-      let newRow = rowOp === OP.PLUS ? row + i: row - i
-      let newCol = colOp === OP.PLUS ? col + i: col - i
+
+    for (i = 1; i < count; i++){
+      newRow = rowOp === OP.PLUS ? row + i: row - i
+      newCol = colOp === OP.PLUS ? col + i: col - i
       if ( newRow >= 0 && newCol < SIZE) {
         pos = newRow * SIZE + newCol
         if (pos >= 0 && pos < SIZE*SIZE) {
-          this.cells[pos].status = status
+          if (this.cells[pos].status === status) {
+            num = i
+            break
+          }
         }
       }
     }
+
+    this.updateDiagonal(num, row, col, rowOp, colOp, status)
   }
+
+  updateDiagonal( num, row, col, rowOp, colOp, status) {
+    let pos, newRow, newCol
+    if ( num > -1 ) {
+      for (i = 0; i < num; i++){
+        newRow = rowOp === OP.PLUS ? row + i: row - i
+        newCol = colOp === OP.PLUS ? col + i: col - i
+        pos = newRow * SIZE + newCol
+        this.cells[pos].status = status
+      }
+    }
+  }
+
 }
 
 module.exports = {OtelloBoard, SIZE};
