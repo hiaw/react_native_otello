@@ -60,9 +60,9 @@ class OtelloBoard {
     this.cells[i].bump()
     let status = this.cells[i].status
     let {row, col} = this.getCellPosition(i)
-    this.checkHorizontal(row, col, i, status)
-    this.checkVertical(row, col, i, status)
-    /* this.checkDiagonalTopLeft(i, status)*/
+    this.checkHorizontal(row, col, status)
+    this.checkVertical(row, col, status)
+    this.checkDiagonalTopLeft(i, status)
     /* this.checkDiagonalTopRight(i, status)*/
     /* this.checkDiagonalBottomLeft(i, status)*/
     /* this.checkDiagonalBottomRight(i, status)*/
@@ -76,12 +76,12 @@ class OtelloBoard {
   }
 
   // Vertical
-  checkVertical(row, col, i, status) {
-    this.checkVerticalTop(row, col, i, status)
-    this.checkVerticalBottom(row, col, i, status)
+  checkVertical(row, col, status) {
+    this.checkVerticalTop(row, col, status)
+    this.checkVerticalBottom(row, col, status)
   }
 
-  checkVerticalTop(row, col, pos, status) {
+  checkVerticalTop(row, col, status) {
     let max = -1
     let min = row
     for (i = min + 1; i < SIZE; i++){
@@ -94,7 +94,7 @@ class OtelloBoard {
     this.updateCol(min, max, col, status)
   }
 
-  checkVerticalBottom(row, col, pos, status) {
+  checkVerticalBottom(row, col, status) {
     let max = row
     let min = -1
     for (i = max - 1; i >= 0; i--){
@@ -116,12 +116,12 @@ class OtelloBoard {
   }
 
   // Horizontal
-  checkHorizontal(row, col, i, status) {
-    this.checkHorizontalRight(row, col, i, status)
-    this.checkHorizontalLeft(row, col, i, status)
+  checkHorizontal(row, col, status) {
+    this.checkHorizontalRight(row, col, status)
+    this.checkHorizontalLeft(row, col, status)
   }
 
-  checkHorizontalRight(row, col, pos, status) {
+  checkHorizontalRight(row, col, status) {
     let max = -1
     let min = col
     for (i = min + 1; i < SIZE; i++){
@@ -134,7 +134,7 @@ class OtelloBoard {
     this.updateRow(min, max, row, status)
   }
 
-  checkHorizontalLeft(row, col, pos, status) {
+  checkHorizontalLeft(row, col, status) {
     let max = col
     let min = -1
     for (i = max - 1; i >= 0; i--){
