@@ -22,6 +22,14 @@ class OtelloBoard {
     this.initialValues()
   }
 
+  initialValues() {
+    let middle = SIZE / 2 - 1;
+    this.cells[ SIZE * middle + middle].status = CELL_STATUS.BLACK
+    this.cells[ SIZE * middle + middle + 1].status = CELL_STATUS.WHITE
+    this.cells[ SIZE * (middle + 1)+ middle].status = CELL_STATUS.WHITE
+    this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
+  }
+
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
@@ -29,16 +37,9 @@ class OtelloBoard {
     /* this.checkVertical(i, status)*/
     /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
-    this.checkDiagonalBottomLeft(i, status)
+    /* this.checkDiagonalBottomLeft(i, status)*/
     /* this.checkDiagonalBottomRight(i, status)*/
-  }
-
-  initialValues() {
-    let middle = SIZE / 2 - 1;
-    this.cells[ SIZE * middle + middle].status = CELL_STATUS.BLACK
-    this.cells[ SIZE * middle + middle + 1].status = CELL_STATUS.WHITE
-    this.cells[ SIZE * (middle + 1)+ middle].status = CELL_STATUS.WHITE
-    this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
+    this.checkDiagonal(i, status)
   }
 
   checkVertical(i, status) {
@@ -56,8 +57,10 @@ class OtelloBoard {
   }
 
   checkDiagonal(i, status) {
-    this.checkDiagonalTopLeft(i)
-    this.checkDiagonal_right(i)
+    this.checkDiagonalTopLeft(i, status)
+    this.checkDiagonalTopRight(i, status)
+    this.checkDiagonalBottomLeft(i, status)
+    this.checkDiagonalBottomRight(i, status)
   }
 
   checkDiagonalTopLeft(i, status) {
@@ -90,7 +93,7 @@ class OtelloBoard {
       let newCol = colOp === OP.PLUS ? col + i: col - i
       if ( newRow >= 0 && newCol < SIZE) {
         pos = newRow * SIZE + newCol
-        if (pos > 0 && pos < SIZE*SIZE) {
+        if (pos >= 0 && pos < SIZE*SIZE) {
           this.cells[pos].status = status
         }
       }
