@@ -33,11 +33,11 @@ class OtelloBoard {
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
-    /* this.checkHorizontalLeft(i, status)*/
+    this.checkHorizontalLeft(i, status)
     /* this.checkHorizontal(i, status)*/
     /* this.checkHorizontalRight(i, status)*/
     /* this.checkVertical(i, status)*/
-    this.checkVerticalTop(i, status)
+    /* this.checkVerticalTop(i, status)*/
     /* this.checkVerticalBottom(i, status)*/
     /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
@@ -93,8 +93,18 @@ class OtelloBoard {
     let {row, col} = this.getCellPosition(i)
     let min = op === OP.PLUS ? col : 0
     let max = op === OP.PLUS ? SIZE : col
+    let newMin = -1
     for (i = min; i < max; i++){
-      this.cells[ row * SIZE + i].status = status
+      let num = row * SIZE + i
+      if (this.cells[num].status === status) {
+        newMin = i
+        break
+      }
+    }
+    if (newMin !== min && newMin > -1) {
+      for (i = newMin; i < max; i++){
+        this.cells[ row * SIZE + i].status = status
+      }
     }
   }
 
