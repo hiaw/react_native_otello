@@ -9,19 +9,32 @@ import _ from 'lodash'
 
 import BoardCellView from '../Components/BoardCellView.js'
 import styles from './Styles/CounterScreen.Style.js'
+import cellStyles from '../Components/Styles/BoardCellView.Style.js'
 
+/* <BoardCellView key={cell.id} ></BoardCellView>*/
 @observer
 class Counter extends React.Component {
   render () {
     let board = this.props.store.board
     let size = this.props.store.size
+
     let rowView = board.cells.map((cell, i) => {
+      let piece = <View style={[cellStyles.transparent, cellStyles.piece]} />
+      switch (cell.status) {
+        case 1:
+          piece = <View style={[cellStyles.white, cellStyles.piece]} />
+          break
+        case 2:
+          piece = <View style={[cellStyles.black, cellStyles.piece]} />
+          break
+      }
       return (
-        <BoardCellView key={cell.id}>
-          <Button key={cell.id} onPress={() => board.updateBoard(i)}>{cell.status}</Button>
-        </BoardCellView>
+        <Button key={cell.id} onPress={() => board.updateBoard(i)}>
+        {piece}
+          </Button>
       )
     })
+
     let boardView = _.chunk(rowView, size).map((row, i) => {
         return <View key={i} style={styles.row}>{row}</View>
     })
