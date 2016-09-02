@@ -33,6 +33,7 @@ class Counter extends React.Component {
         <Text>White count { board.whiteCount }</Text>
         <Text>Black count { board.blackCount }</Text>
         <Text>Empty { board.emptyCount }</Text>
+        <Text>Turn { board.turnColor}</Text>
       </View>
     )
   }

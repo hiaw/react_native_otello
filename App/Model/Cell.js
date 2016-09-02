@@ -9,10 +9,6 @@ export const CELL_STATUS = {
 
 @autobind
 export default class Cell {
-  @observable status = 0;
+  @observable status = 0
   id = Math.random()
-
-  bump(){
-    this.status = (this.status+1) % 3;
-  }
 }
