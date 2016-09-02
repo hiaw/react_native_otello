@@ -17,6 +17,11 @@ class OtelloBoard {
     this.initialValues()
   }
 
+  @action updateBoard(i) {
+    this.checkHorizontal(i)
+    /* this.checkVertical(i)*/
+  }
+
   initialValues() {
     let middle = SIZE / 2 - 1;
     this.cells[ SIZE * middle + middle].status = CELL_STATUS.BLACK
@@ -25,9 +30,22 @@ class OtelloBoard {
     this.cells[ SIZE * (middle + 1)+ middle + 1].status = CELL_STATUS.BLACK
   }
 
-  @action updateBoard(i) {
-    this.cells[i].bump();
-    this.cells[i+1].bump();
+  checkVertical(i) {
+    this.cells[i].bump()
+    let status = this.cells[i].status
+    let col = i % SIZE
+    for (i = 0; i < SIZE; i++){
+      this.cells[ i * SIZE + col].status = status
+    }
+  }
+
+  checkHorizontal(i) {
+    this.cells[i].bump()
+    let status = this.cells[i].status
+    let row = parseInt(i/SIZE)
+    for (i = 0; i < SIZE; i++){
+      this.cells[ row * SIZE + i].status = status
+    }
   }
 }
 
