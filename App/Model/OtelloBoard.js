@@ -20,9 +20,10 @@ class OtelloBoard {
   @action updateBoard(i) {
     this.cells[i].bump()
     let status = this.cells[i].status
-    this.checkDiagonalTopLeft(i, status)
     /* this.checkHorizontal(i, status)*/
     /* this.checkVertical(i, status)*/
+    /* this.checkDiagonalTopLeft(i, status)*/
+    this.checkDiagonalTopRight(i, status)
   }
 
   initialValues() {
@@ -60,18 +61,28 @@ class OtelloBoard {
       if ( row-i >= 0 && col-i >= 0) {
         pos = (row-i) * SIZE + (col-i)
         if (pos > 0 && pos < SIZE*SIZE) {
-          this.cells[ (row-i) * SIZE + (col-i)].status = status
+          this.cells[pos].status = status
         }
       }
     }
   }
 
-  checkDiagonal_right(i, status) {
+  checkDiagonalTopRight(i, status) {
     let row = parseInt(i/SIZE)
     let col = i % SIZE
+    let pos
     for (i = 0; i < SIZE; i++){
-      this.cells[ row * SIZE + i].status = status
+      if ( row-i >= 0 && col+i < SIZE) {
+        pos = (row-i) * SIZE + col+i
+        if (pos > 0 && pos < SIZE*SIZE) {
+          this.cells[pos].status = status
+        }
+      }
     }
+  }
+
+  diagonalForLoop(i) {
+
   }
 }
 
