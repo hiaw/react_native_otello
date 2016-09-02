@@ -7,7 +7,7 @@ import Button from 'react-native-button'
 import {observer} from 'mobx-react/native'
 import _ from 'lodash'
 
-import CounterRow from '../Components/CounterRow.js'
+import BoardCellView from '../Components/BoardCellView.js'
 import styles from './Styles/CounterScreen.Style.js'
 
 @observer
@@ -16,7 +16,11 @@ class Counter extends React.Component {
     let board = this.props.store.board
     let size = this.props.store.size
     let rowView = board.cells.map((cell, i) => {
-      return <Button key={cell.id} onPress={() => board.updateBoard(i)}>{cell.status}</Button>
+      return (
+        <BoardCellView key={cell.id}>
+          <Button key={cell.id} onPress={() => board.updateBoard(i)}>{cell.status}</Button>
+        </BoardCellView>
+      )
     })
     let boardView = _.chunk(rowView, size).map((row, i) => {
         return <View key={i} style={styles.row}>{row}</View>
