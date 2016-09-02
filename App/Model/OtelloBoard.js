@@ -69,13 +69,14 @@ export default class OtelloBoard {
   }
   // Game logic
   @action updateBoard(i) {
-    this.cells[i].status = this.turn
-    this.changeTurn()
-    let status = this.cells[i].status
+    let status = this.turn
     let {row, col} = this.getCellPosition(i)
-    this.checkHorizontal(row, col, status)
-    this.checkVertical(row, col, status)
-    this.checkDiagonal(row, col, status)
+    this.checkAll(row, col, status)
+    // Do the change
+    if ([1].length > 0) {
+      this.cells[i].status = this.turn
+      this.changeTurn()
+    }
   }
 
 
@@ -83,6 +84,12 @@ export default class OtelloBoard {
     let row = parseInt(i/SIZE)
     let col = i % SIZE
     return {row, col}
+  }
+
+  checkAll(row, col, status) {
+    this.checkHorizontal(row, col, status)
+    this.checkVertical(row, col, status)
+    this.checkDiagonal(row, col, status)
   }
 
   // Vertical
