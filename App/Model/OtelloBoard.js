@@ -5,6 +5,11 @@ import Cell, {CELL_STATUS} from './Cell.js'
 
 const SIZE = 8
 
+const OP = {
+  MINUS: 0,
+  PLUS: 1
+}
+
 @autobind
 class OtelloBoard {
   @observable cells = [];
@@ -22,8 +27,8 @@ class OtelloBoard {
     let status = this.cells[i].status
     /* this.checkHorizontal(i, status)*/
     /* this.checkVertical(i, status)*/
-    /* this.checkDiagonalTopLeft(i, status)*/
-    this.checkDiagonalTopRight(i, status)
+    this.checkDiagonalTopLeft(i, status)
+    /* this.checkDiagonalTopRight(i, status)*/
   }
 
   initialValues() {
@@ -35,14 +40,14 @@ class OtelloBoard {
   }
 
   checkVertical(i, status) {
-    let col = i % SIZE
+    let {row, col} = this.getCellPosition(i)
     for (i = 0; i < SIZE; i++){
       this.cells[ i * SIZE + col].status = status
     }
   }
 
   checkHorizontal(i, status) {
-    let row = parseInt(i/SIZE)
+    let {row, col} = this.getCellPosition(i)
     for (i = 0; i < SIZE; i++){
       this.cells[ row * SIZE + i].status = status
     }
@@ -54,35 +59,32 @@ class OtelloBoard {
   }
 
   checkDiagonalTopLeft(i, status) {
-    let row = parseInt(i/SIZE)
-    let col = i % SIZE
-    let pos
-    for (i = 0; i < SIZE; i++){
-      if ( row-i >= 0 && col-i >= 0) {
-        pos = (row-i) * SIZE + (col-i)
-        if (pos > 0 && pos < SIZE*SIZE) {
-          this.cells[pos].status = status
-        }
-      }
-    }
+    this.diagonalForLoop(i, OP.MINUS, OP.MINUS, status)
   }
 
   checkDiagonalTopRight(i, status) {
+    this.diagonalForLoop(i, OP.MINUS, OP.PLUS, status)
+  }
+
+  getCellPosition(i) {
     let row = parseInt(i/SIZE)
     let col = i % SIZE
-    let pos
+    return {row, col}
+  }
+
+  diagonalForLoop(i, rowOp, colOp, status) {
+    let {row, col} = this.getCellPosition(i)
+    let pos, newRow, newCol
     for (i = 0; i < SIZE; i++){
-      if ( row-i >= 0 && col+i < SIZE) {
-        pos = (row-i) * SIZE + col+i
+      let newRow = rowOp === OP.PLUS ? row + i: row - i
+      let newCol = colOp === OP.PLUS ? col + i: col - i
+      if ( newRow >= 0 && newCol < SIZE) {
+        pos = newRow * SIZE + newCol
         if (pos > 0 && pos < SIZE*SIZE) {
           this.cells[pos].status = status
         }
       }
     }
-  }
-
-  diagonalForLoop(i) {
-
   }
 }
 
