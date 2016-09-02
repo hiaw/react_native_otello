@@ -27,8 +27,10 @@ class OtelloBoard {
     let status = this.cells[i].status
     /* this.checkHorizontal(i, status)*/
     /* this.checkVertical(i, status)*/
-    this.checkDiagonalTopLeft(i, status)
+    /* this.checkDiagonalTopLeft(i, status)*/
     /* this.checkDiagonalTopRight(i, status)*/
+    this.checkDiagonalBottomLeft(i, status)
+    /* this.checkDiagonalBottomRight(i, status)*/
   }
 
   initialValues() {
@@ -64,6 +66,14 @@ class OtelloBoard {
 
   checkDiagonalTopRight(i, status) {
     this.diagonalForLoop(i, OP.MINUS, OP.PLUS, status)
+  }
+
+  checkDiagonalBottomLeft(i, status) {
+    this.diagonalForLoop(i, OP.PLUS, OP.MINUS, status)
+  }
+
+  checkDiagonalBottomRight(i, status) {
+    this.diagonalForLoop(i, OP.PLUS, OP.PLUS, status)
   }
 
   getCellPosition(i) {
