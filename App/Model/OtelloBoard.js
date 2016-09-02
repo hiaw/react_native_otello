@@ -3,7 +3,7 @@ import autobind from 'autobind-decorator'
 
 import Cell, {CELL_STATUS} from './Cell.js'
 
-const SIZE = 18
+const SIZE = 8
 
 const OP = {
   MINUS: 0,
@@ -62,11 +62,11 @@ class OtelloBoard {
     let {row, col} = this.getCellPosition(i)
     this.checkHorizontal(row, col, status)
     this.checkVertical(row, col, status)
-    this.checkDiagonalTopLeft(i, status)
-    /* this.checkDiagonalTopRight(i, status)*/
-    /* this.checkDiagonalBottomLeft(i, status)*/
-    /* this.checkDiagonalBottomRight(i, status)*/
-    /* this.checkDiagonal(i, status)*/
+    /* this.checkDiagonalTopLeft(row, col, status)*/
+    /* this.checkDiagonalTopRight(row, col, status)*/
+    /* this.checkDiagonalBottomLeft(row, col, status)*/
+    /* this.checkDiagonalBottomRight(row, col, status)*/
+    this.checkDiagonal(row, col, status)
   }
 
   getCellPosition(i) {
@@ -156,32 +156,31 @@ class OtelloBoard {
   }
 
   // Diagonal
-  checkDiagonal(i, status) {
-    this.checkDiagonalTopLeft(i, status)
-    this.checkDiagonalTopRight(i, status)
-    this.checkDiagonalBottomLeft(i, status)
-    this.checkDiagonalBottomRight(i, status)
+  checkDiagonal(row, col, status) {
+    this.checkDiagonalTopLeft(row, col, status)
+    this.checkDiagonalTopRight(row, col, status)
+    this.checkDiagonalBottomLeft(row, col, status)
+    this.checkDiagonalBottomRight(row, col, status)
   }
 
-  checkDiagonalTopLeft(i, status) {
-    this.diagonalForLoop(i, OP.MINUS, OP.MINUS, status)
+  checkDiagonalTopLeft(row, col, status) {
+    this.diagonalForLoop(row, col, OP.MINUS, OP.MINUS, status)
   }
 
-  checkDiagonalTopRight(i, status) {
-    this.diagonalForLoop(i, OP.MINUS, OP.PLUS, status)
+  checkDiagonalTopRight(row, col, status) {
+    this.diagonalForLoop(row, col, OP.MINUS, OP.PLUS, status)
   }
 
-  checkDiagonalBottomLeft(i, status) {
-    this.diagonalForLoop(i, OP.PLUS, OP.MINUS, status)
+  checkDiagonalBottomLeft(row, col, status) {
+    this.diagonalForLoop(row, col, OP.PLUS, OP.MINUS, status)
   }
 
-  checkDiagonalBottomRight(i, status) {
-    this.diagonalForLoop(i, OP.PLUS, OP.PLUS, status)
+  checkDiagonalBottomRight(row, col, status) {
+    this.diagonalForLoop(row, col, OP.PLUS, OP.PLUS, status)
   }
 
+  diagonalForLoop(row, col, rowOp, colOp, status) {
 
-  diagonalForLoop(i, rowOp, colOp, status) {
-    let {row, col} = this.getCellPosition(i)
     let pos, newRow, newCol
     for (i = 0; i < SIZE; i++){
       let newRow = rowOp === OP.PLUS ? row + i: row - i
