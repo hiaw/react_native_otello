@@ -164,22 +164,22 @@ class OtelloBoard {
   }
 
   checkDiagonalTopLeft(row, col, status) {
-    let count = Math.max(row, col)
+    let count = Math.min(row, col)
     this.diagonalForLoop(row, col, count, OP.MINUS, OP.MINUS, status)
   }
 
   checkDiagonalTopRight(row, col, status) {
-    let count = Math.max(row, SIZE - col)
+    let count = Math.min(row, SIZE - 1 - col)
     this.diagonalForLoop(row, col, count, OP.MINUS, OP.PLUS, status)
   }
 
   checkDiagonalBottomLeft(row, col, status) {
-    let count = Math.max(SIZE - row, col)
+    let count = Math.min(SIZE - 1 - row, col)
     this.diagonalForLoop(row, col, count, OP.PLUS, OP.MINUS, status)
   }
 
   checkDiagonalBottomRight(row, col, status) {
-    let count = SIZE - Math.max(row, col)
+    let count = Math.min(SIZE - 1 - row, SIZE - 1 - col)
     this.diagonalForLoop(row, col, count, OP.PLUS, OP.PLUS, status)
   }
 
@@ -187,7 +187,7 @@ class OtelloBoard {
     let num = -1
     let pos, newRow, newCol
 
-    for (i = 1; i < count; i++){
+    for (i = 1; i <= count; i++){
       newRow = rowOp === OP.PLUS ? row + i: row - i
       newCol = colOp === OP.PLUS ? col + i: col - i
       if ( newRow >= 0 && newCol < SIZE) {
