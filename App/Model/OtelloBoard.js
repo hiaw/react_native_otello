@@ -73,7 +73,7 @@ export default class OtelloBoard {
     let moves = this.checkAll(row, col, this.turn)
     // Do the change
     if (moves.length > 0) {
-      console.log(JSON.stringify(moves))
+      /* console.log(JSON.stringify(moves))*/
       this.cells[i].status = this.turn
       this.turnMoveTiles(moves, this.turn)
       this.changeTurn()
@@ -96,9 +96,11 @@ export default class OtelloBoard {
     let moves = []
     moves = moves.concat(this.checkVerticalTop(row, col, status))
     moves = moves.concat(this.checkVerticalBottom(row, col, status))
+    moves = moves.concat(this.checkHorizontalRight(row, col, status))
+    moves = moves.concat(this.checkHorizontalLeft(row, col, status))
     /* this.checkHorizontal(row, col, status)*/
     /* this.checkDiagonal(row, col, status)*/
-    console.log(JSON.stringify(moves))
+    /* console.log(JSON.stringify(moves))*/
     return moves
   }
 
@@ -133,20 +135,15 @@ export default class OtelloBoard {
     let moves = []
     if (min > -1 && max > -1) {
       for (i = min; i < max; i++){
-        console.log("Pushing " +  (i * SIZE + col))
+        /* console.log("Pushing " +  (i * SIZE + col))*/
         moves.push( i * SIZE + col)
       }
     }
-      console.log(JSON.stringify(moves))
+    /* console.log(JSON.stringify(moves))*/
     return moves
   }
 
   // Horizontal
-  checkHorizontal(row, col, status) {
-    this.checkHorizontalRight(row, col, status)
-    this.checkHorizontalLeft(row, col, status)
-  }
-
   checkHorizontalRight(row, col, status) {
     let max = -1
     let min = col
@@ -157,7 +154,7 @@ export default class OtelloBoard {
         break
       }
     }
-    this.updateRow(min, max, row, status)
+    return this.updateRow(min, max, row, status)
   }
 
   checkHorizontalLeft(row, col, status) {
@@ -170,15 +167,17 @@ export default class OtelloBoard {
         break
       }
     }
-    this.updateRow(min, max, row, status)
+    return this.updateRow(min, max, row, status)
   }
 
   updateRow( min, max, row, status) {
+    let moves = []
     if (min > -1 && max > -1) {
       for (i = min; i < max; i++){
-        this.cells[ row * SIZE + i].status = status
+        moves.push( row * SIZE + i)
       }
     }
+    return moves
   }
 
   // Diagonal
