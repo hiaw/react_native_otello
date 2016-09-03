@@ -43,6 +43,7 @@ class Counter extends React.Component {
     let turnColor = cellStyles.black
     if (board.turn == 1) turnColor = cellStyles.white
     let nStyle = {zIndex: 2}
+
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
