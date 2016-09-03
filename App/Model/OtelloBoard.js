@@ -9,6 +9,20 @@ const OP = {
   MINUS: 0,
   PLUS: 1
 }
+// Helpers
+const getCellPosition = (i) =>{
+  let row = parseInt(i/SIZE)
+  let col = i % SIZE
+  return {row, col}
+}
+
+const opposite = (status) => {
+  if (CELL_STATUS.BLACK === status)
+    return CELL_STATUS.WHITE
+  else
+    return CELL_STATUS.BLACK
+}
+
 
 @autobind
 export default class OtelloBoard {
@@ -69,21 +83,17 @@ export default class OtelloBoard {
   }
   // Game logic
   @action updateBoard(i) {
-    let {row, col} = this.getCellPosition(i)
-    let moves = this.checkAll(row, col, this.turn)
-    // Do the change
-    if (moves.length > 0) {
-      /* console.log(JSON.stringify(moves))*/
-      this.cells[i].status = this.turn
-      this.turnMoveTiles(moves, this.turn)
-      this.changeTurn()
+    if (this.cells[i].status === CELL_STATUS.EMPTY) {
+      let {row, col} = getCellPosition(i)
+      let moves = this.checkAll(row, col, this.turn)
+      // Do the change
+      if (moves.length > 0) {
+        /* console.log(JSON.stringify(moves))*/
+        this.cells[i].status = this.turn
+        this.turnMoveTiles(moves, this.turn)
+        this.changeTurn()
+      }
     }
-  }
-
-  getCellPosition(i) {
-    let row = parseInt(i/SIZE)
-    let col = i % SIZE
-    return {row, col}
   }
 
  turnMoveTiles(moves, status) {
@@ -108,11 +118,17 @@ export default class OtelloBoard {
   checkVerticalTop(row, col, status) {
     let max = -1
     let min = row
-    for (i = min + 1; i < SIZE; i++){
-      let num = i * SIZE + + col
-      if (this.cells[num].status === status) {
-        max = i
-        break
+    let num = (min + 1) * SIZE + col
+    if (this.cells[num].status === opposite(status) ) {
+      for (i = min + 2; i < SIZE; i++){
+        num = i * SIZE + + col
+        if (this.cells[num].status === CELL_STATUS.EMPTY) {
+          break
+        }
+        if (this.cells[num].status === status) {
+          max = i
+          break
+        }
       }
     }
     return this.updateCol(min, max, col, status)
@@ -121,11 +137,17 @@ export default class OtelloBoard {
   checkVerticalBottom(row, col, status) {
     let max = row
     let min = -1
-    for (i = max - 1; i >= 0; i--){
-      let num = i * SIZE + + col
-      if (this.cells[num].status === status) {
-        min = i
-        break
+    let num = (max - 1) * SIZE + col
+    if (this.cells[num].status === opposite(status)) {
+      for (i = max - 2; i >= 0; i--){
+        num = i * SIZE + + col
+        if (this.cells[num].status === CELL_STATUS.EMPTY) {
+          break
+        }
+        if (this.cells[num].status === status) {
+          min = i
+          break
+        }
       }
     }
     return this.updateCol(min, max, col, status)
@@ -147,11 +169,17 @@ export default class OtelloBoard {
   checkHorizontalRight(row, col, status) {
     let max = -1
     let min = col
-    for (i = min + 1; i < SIZE; i++){
-      let num = row * SIZE + i
-      if (this.cells[num].status === status) {
-        max = i
-        break
+    let num = row * SIZE + (min + 1)
+    if (this.cells[num].status === opposite(status)) {
+      for (i = min + 2; i < SIZE; i++){
+        num = row * SIZE + i
+        if (this.cells[num].status === CELL_STATUS.EMPTY) {
+          break
+        }
+        if (this.cells[num].status === status) {
+          max = i
+          break
+        }
       }
     }
     return this.updateRow(min, max, row, status)
@@ -160,11 +188,17 @@ export default class OtelloBoard {
   checkHorizontalLeft(row, col, status) {
     let max = col
     let min = -1
-    for (i = max - 1; i >= 0; i--){
-      let num = row * SIZE + i
-      if (this.cells[num].status === status) {
-        min = i
-        break
+    let num = row * SIZE + (max - 1)
+    if (this.cells[num].status === opposite(status)) {
+      for (i = max - 2; i >= 0; i--){
+        num = row * SIZE + i
+        if (this.cells[num].status === CELL_STATUS.EMPTY) {
+          break
+        }
+        if (this.cells[num].status === status) {
+          min = i
+          break
+        }
       }
     }
     return this.updateRow(min, max, row, status)
