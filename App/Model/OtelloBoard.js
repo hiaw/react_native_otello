@@ -134,7 +134,7 @@ export default class OtelloBoard {
         }
       }
     }
-    return this.updateCol(min, max, col, status)
+    return this.calculateColumn(min, max, col, status)
   }
 
   checkVerticalBottom(row, col, status) {
@@ -153,10 +153,10 @@ export default class OtelloBoard {
         }
       }
     }
-    return this.updateCol(min, max, col, status)
+    return this.calculateColumn(min, max, col, status)
   }
 
-  updateCol( min, max, col, status) {
+  calculateColumn( min, max, col, status) {
     let moves = []
     if (min > -1 && max > -1) {
       for (i = min; i < max; i++){
@@ -185,7 +185,7 @@ export default class OtelloBoard {
         }
       }
     }
-    return this.updateRow(min, max, row, status)
+    return this.calculateRow(min, max, row, status)
   }
 
   checkHorizontalLeft(row, col, status) {
@@ -204,10 +204,10 @@ export default class OtelloBoard {
         }
       }
     }
-    return this.updateRow(min, max, row, status)
+    return this.calculateRow(min, max, row, status)
   }
 
-  updateRow( min, max, row, status) {
+  calculateRow( min, max, row, status) {
     let moves = []
     if (min > -1 && max > -1) {
       for (i = min; i < max; i++){
@@ -264,10 +264,10 @@ export default class OtelloBoard {
       }
     }
 
-    return this.updateDiagonal(num, row, col, rowOp, colOp, status)
+    return this.calculateDiagonal(num, row, col, rowOp, colOp, status)
   }
 
-  updateDiagonal( num, row, col, rowOp, colOp, status) {
+  calculateDiagonal( num, row, col, rowOp, colOp, status) {
     let moves = []
     let pos, newRow, newCol
     if ( num > -1 ) {
