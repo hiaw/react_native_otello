@@ -12,5 +12,8 @@ export default {
   },
   row: {
     flexDirection: 'row'
+  },
+  green: {
+    backgroundColor: 'aquamarine'
   }
 }

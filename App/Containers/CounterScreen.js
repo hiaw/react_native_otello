@@ -42,7 +42,8 @@ class Counter extends React.Component {
     })
 
     let turnColor = cellStyles.black
-    if (board.turn == CELL_STATUS.WHITE) turnColor = cellStyles.white
+    if (board.turn === CELL_STATUS.WHITE)
+      turnColor = cellStyles.white
     let nStyle = {zIndex: 2}
 
     return (
@@ -50,7 +51,9 @@ class Counter extends React.Component {
         <Text style={styles.welcome}>
           Otello
         </Text>
-        {boardView}
+        <View style={styles.green}>
+          {boardView}
+        </View>
 
         <Text></Text>
         <Text>White count { board.whiteCount }</Text>

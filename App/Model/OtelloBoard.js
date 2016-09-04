@@ -57,10 +57,6 @@ export default class OtelloBoard {
                 CELL_STATUS.BLACK
   }
 
-  @computed get turnColor() {
-    return this.turn === CELL_STATUS.BLACK?
-           'Black' : 'White'
-  }
   // Game logic
   @action updateBoard(pos) {
     let moves = getAllMoves(pos, this.turn, this.cells)
