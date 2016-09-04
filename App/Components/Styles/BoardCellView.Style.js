@@ -3,7 +3,7 @@ import {
   Dimensions
 } from 'react-native'
 
-import { SIZE } from '../../Model/OtelloBoard.js'
+import { SIZE } from '../../Model/GameLogic.js'
 
 const WindowSize = Dimensions.get('window')
 const BoardWidth = WindowSize.width
