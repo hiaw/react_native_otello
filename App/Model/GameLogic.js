@@ -9,27 +9,26 @@ const OP = {
 }
 
 getAllMoves = (pos, status, cells) => {
-  let {row, col} = getCellPosition(pos)
   let moves = []
   if (cells[pos].status === CELL_STATUS.EMPTY) {
-    return moves
+    let {row, col} = getCellPosition(pos)
+    moves = moves.concat(checkVerticalTop(row, col, status, cells))
+    moves = moves.concat(checkVerticalBottom(row, col, status, cells))
+    moves = moves.concat(checkHorizontalRight(row, col, status, cells))
+    moves = moves.concat(checkHorizontalLeft(row, col, status, cells))
+    moves = moves.concat(checkDiagonalTopLeft(row, col, status, cells))
+    moves = moves.concat(checkDiagonalTopRight(row, col, status, cells))
+    moves = moves.concat(checkDiagonalBottomLeft(row, col, status, cells))
+    moves = moves.concat(checkDiagonalBottomRight(row, col, status, cells))
   }
-  moves = moves.concat(checkVerticalTop(row, col, status, cells))
-  moves = moves.concat(checkVerticalBottom(row, col, status, cells))
-  moves = moves.concat(checkHorizontalRight(row, col, status, cells))
-  moves = moves.concat(checkHorizontalLeft(row, col, status, cells))
-  moves = moves.concat(checkDiagonalTopLeft(row, col, status, cells))
-  moves = moves.concat(checkDiagonalTopRight(row, col, status, cells))
-  moves = moves.concat(checkDiagonalBottomLeft(row, col, status, cells))
-  moves = moves.concat(checkDiagonalBottomRight(row, col, status, cells))
   /* console.log(JSON.stringify(moves)) */
   return moves
 }
 
 // Helpers
-getCellPosition = (i) => {
-  let row = parseInt(i / SIZE)
-  let col = i % SIZE
+getCellPosition = (pos) => {
+  let row = parseInt(pos / SIZE)
+  let col = pos % SIZE
   return {row, col}
 }
 
@@ -46,7 +45,7 @@ checkVerticalTop = (row, col, status, cells) => {
   let min = row
   let num = (min + 1) * SIZE + col
   if (num > 0 && num < SIZE2 && cells[num].status === opposite(status)) {
-    for (i = min + 2; i < SIZE; i++) {
+    for (let i = min + 2; i < SIZE; i++) {
       num = i * SIZE + +col
       if (cells[num].status === CELL_STATUS.EMPTY) {
         break
@@ -65,7 +64,7 @@ checkVerticalBottom = (row, col, status, cells) => {
   let min = -1
   let num = (max - 1) * SIZE + col
   if (num > 0 && num < SIZE2 && cells[num].status === opposite(status)) {
-    for (i = max - 2; i >= 0; i--) {
+    for (let i = max - 2; i >= 0; i--) {
       num = i * SIZE + +col
       if (cells[num].status === CELL_STATUS.EMPTY) {
         break
@@ -82,7 +81,7 @@ checkVerticalBottom = (row, col, status, cells) => {
 calculateColumn = (min, max, col, status, cells) => {
   let moves = []
   if (min > -1 && max > -1) {
-    for (i = min; i < max; i++) {
+    for (let i = min; i < max; i++) {
       /* console.log("Pushing " +  (i * SIZE + col)) */
       moves.push(i * SIZE + col)
     }
@@ -97,7 +96,7 @@ checkHorizontalRight = (row, col, status, cells) => {
   let min = col
   let num = row * SIZE + (min + 1)
   if (num > 0 && num < SIZE2 && cells[num].status === opposite(status)) {
-    for (i = min + 2; i < SIZE; i++) {
+    for (let i = min + 2; i < SIZE; i++) {
       num = row * SIZE + i
       if (cells[num].status === CELL_STATUS.EMPTY) {
         break
@@ -116,7 +115,7 @@ checkHorizontalLeft = (row, col, status, cells) => {
   let min = -1
   let num = row * SIZE + (max - 1)
   if (num > 0 && num < SIZE2 && cells[num].status === opposite(status)) {
-    for (i = max - 2; i >= 0; i--) {
+    for (let i = max - 2; i >= 0; i--) {
       num = row * SIZE + i
       if (cells[num].status === CELL_STATUS.EMPTY) {
         break
@@ -133,7 +132,7 @@ checkHorizontalLeft = (row, col, status, cells) => {
 calculateRow = (min, max, row, status, cells) => {
   let moves = []
   if (min > -1 && max > -1) {
-    for (i = min; i < max; i++) {
+    for (let i = min; i < max; i++) {
       moves.push(row * SIZE + i)
     }
   }
@@ -172,7 +171,7 @@ diagonalForLoop = (row, col, count, rowOp, colOp, status, cells) => {
       pos >= 0 && pos < SIZE2 &&
       cells[pos].status === opposite(status)
   ) {
-    for (i = 2; i <= count; i++) {
+    for (let i = 2; i <= count; i++) {
       newRow = rowOp === OP.PLUS ? row + i : row - i
       newCol = colOp === OP.PLUS ? col + i : col - i
       if (newRow >= 0 && newCol < SIZE) {
@@ -194,7 +193,7 @@ calculateDiagonal = (num, row, col, rowOp, colOp, status, cells) => {
   let moves = []
   let pos, newRow, newCol
   if (num > -1) {
-    for (i = 0; i < num; i++) {
+    for (let i = 0; i < num; i++) {
       newRow = rowOp === OP.PLUS ? row + i : row - i
       newCol = colOp === OP.PLUS ? col + i : col - i
       pos = newRow * SIZE + newCol

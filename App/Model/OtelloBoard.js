@@ -67,14 +67,14 @@ export default class OtelloBoard {
     // Do the change
     if (moves.length > 0) {
       /* console.log(JSON.stringify(moves))*/
-      this.cells[i].status = this.turn
+      this.cells[pos].status = this.turn
       this.turnMoveTiles(moves, this.turn)
       this.changeTurn()
     }
   }
 
  turnMoveTiles(moves, status) {
-    for(var i = 0; i < moves.length; i++) {
+    for(let i = 0; i < moves.length; i++) {
       this.cells[moves[i]].status = status
     }
   }
