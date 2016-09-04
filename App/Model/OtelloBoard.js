@@ -59,7 +59,7 @@ export default class OtelloBoard {
 
   @computed get turnColor() {
     return this.turn === CELL_STATUS.BLACK?
-                'Black' : 'White'
+           'Black' : 'White'
   }
   // Game logic
   @action updateBoard(pos) {
@@ -70,10 +70,25 @@ export default class OtelloBoard {
       this.cells[pos].status = this.turn
       this.turnMoveTiles(moves, this.turn)
       this.changeTurn()
+      if (!this.calculateIfValidMovesExist()) {
+        this.changeTurn()
+      }
     }
   }
 
- turnMoveTiles(moves, status) {
+  calculateIfValidMovesExist() {
+    for(let i = 0; i < this.cells.length; i++) {
+      if (this.cells[i].status === CELL_STATUS.EMPTY) {
+        let moves = getAllMoves(i, this.turn, this.cells)
+        if (moves.length > 1) {
+          return true
+        }
+      }
+    }
+    return false
+  }
+
+  turnMoveTiles(moves, status) {
     for(let i = 0; i < moves.length; i++) {
       this.cells[moves[i]].status = status
     }
