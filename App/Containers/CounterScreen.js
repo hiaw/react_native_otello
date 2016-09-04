@@ -10,6 +10,7 @@ import _ from 'lodash'
 import BoardCellView from '../Components/BoardCellView.js'
 import styles from './Styles/CounterScreen.Style.js'
 import cellStyles from '../Components/Styles/BoardCellView.Style.js'
+import {CELL_STATUS} from '../Model/Cell.js'
 
 /* <BoardCellView key={cell.id} ></BoardCellView>*/
 @observer
@@ -21,10 +22,10 @@ class Counter extends React.Component {
     let rowView = board.cells.map((cell, i) => {
       let color = cellStyles.transparent
       switch (cell.status) {
-        case 1:
+        case CELL_STATUS.WHITE:
           color= cellStyles.white
           break
-        case 2:
+        case CELL_STATUS.BLACK:
           color = cellStyles.black
           break
       }
@@ -41,7 +42,7 @@ class Counter extends React.Component {
     })
 
     let turnColor = cellStyles.black
-    if (board.turn == 1) turnColor = cellStyles.white
+    if (board.turn == CELL_STATUS.WHITE) turnColor = cellStyles.white
     let nStyle = {zIndex: 2}
 
     return (
