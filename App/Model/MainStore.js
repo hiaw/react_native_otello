@@ -1,4 +1,5 @@
-import OtelloBoard, {SIZE} from './OtelloBoard.js'
+import OtelloBoard from './OtelloBoard.js'
+import {SIZE} from './GameLogic.js'
 
 let store = {
   board: new OtelloBoard(),
