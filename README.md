@@ -1,9 +1,7 @@
-# rn_mobx_template
+# react_native_otello
 
-Template for using MobX in React Native with sample code
+![Gif](./image.gif "Screencast")
 
-1. Create model in `App/Model`
+Sample project re-creating the Reversi Game
 
-2. Add the new model to the store in `App/Model/MainStore.js`
-
-3. Use the model in your `Component` or `Container`
+Started from [rn_mobx_template](https://github.com/hiaw/rn_mobx_template)
