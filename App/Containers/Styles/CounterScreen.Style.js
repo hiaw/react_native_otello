@@ -3,7 +3,7 @@ export default {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF'
+    backgroundColor: 'powderblue'
   },
   welcome: {
     fontSize: 20,
@@ -12,5 +12,8 @@ export default {
   },
   row: {
     flexDirection: 'row'
+  },
+  green: {
+    backgroundColor: 'aquamarine'
   }
 }
